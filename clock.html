@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="ja"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link id="font" href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet" type="text/css">
+  <title>Digital Clock</title>
+  <style>
+    html {
+        -webkit-app-region: drag;
+    }
+
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+    #container {
+      width: 450px;
+      /* ↓背景色を変える時はここ↓ */
+      background-color: #15151e;
+      justify-content: center;
+      border-radius: 60px;
+      padding: 20px 10px 20px;
+    }
+
+    #clock {
+      font-family: 'Share Tech Mono', monospace;
+      /* ↓文字色を変える時はここ↓ */
+      color: #FFBDEE;
+      text-align: center;
+    }
+
+    .clock-date-weekday {
+      font-size: 40px;
+      padding-bottom: 10px;
+    }
+
+    .clock-weekday-type {
+      display: none;
+    }
+
+    .clock-time {
+      font-size: 100px;
+      line-height: 0.8em;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="clock" style="font-family: Nunito, sans-serif;">
+      <p class="clock-date-weekday">
+        <span class="clock-date">2021.11.18</span>
+        <span class="clock-weekday"> (木曜日)</span>
+        <span class="clock-weekday-type">1</span>
+      </p>
+      <p class="clock-time">00:38:15</p>
+    </div>
+  </div>
+  <script>
+    const clock = () => {
+      const d = new Date();
+      let year = d.getFullYear();
+      let month = d.getMonth() + 1;
+      let date = d.getDate();
+      let dayNum = d.getDay();
+      const weekday1 = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
+      const weekday2 = ["日", "月", "火", "水", "木", "金", "土"];
+      const weekday3 = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      let day = "";
+      let dayvalue = document.querySelector(".clock-weekday-type").innerText;
+      if (dayvalue == "1") {
+        day = weekday1[dayNum];
+      } else if (dayvalue == "2") {
+        day = weekday2[dayNum];
+      } else if (dayvalue == "3") {
+        day = weekday3[dayNum];
+      } else {
+        day = weekday1[dayNum];
+      }
+
+      let hour = d.getHours();
+      let min = d.getMinutes();
+      let sec = d.getSeconds();
+
+      month = month < 10 ? "0" + month : month;
+      date = date < 10 ? "0" + date : date;
+      hour = hour < 10 ? "0" + hour : hour;
+      min = min < 10 ? "0" + min : min;
+      sec = sec < 10 ? "0" + sec : sec;
+
+      /*let today = `${year}.${month}.${date} (${day})`;*/
+      let today = `${year}.${month}.${date}`;
+      let time = `${hour}:${min}:${sec}`;
+
+      document.querySelector(".clock-date").innerText = today;
+      document.querySelector(".clock-weekday").innerText = ` (${day})`;
+      document.querySelector(".clock-time").innerText = time;
+    };
+    digitalClock();
+    function digitalClock() {
+      clock();
+      let delay = 1000 - new Date().getMilliseconds();
+      setTimeout(digitalClock, delay);
+    }
+    /*setInterval(clock, 1000);*/
+  </script>
+
+
+</body></html>
